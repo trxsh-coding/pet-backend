@@ -33,6 +33,10 @@ const UserSchema = new mongoose.Schema(
             default: true,
             select:false
         },
+        online: {
+            type:Boolean,
+            default:false
+        },
         passwordConfirm: {
             type:String,
             required:[true, 'Please confirm your password'],
@@ -46,7 +50,7 @@ const UserSchema = new mongoose.Schema(
         },
         avatar: {
             type:String,
-            default:'/img/avatar.png'
+            default:'avatar.png'
         },
         background: String,
         phone:String,
@@ -78,19 +82,14 @@ UserSchema.pre('save', async function(next) {
 });
 
 
-// UserSchema.pre(/^find/, async function (next) {
-//
-//     Subscriptions.find()
-//
-//     next();
-// });
-
-
 UserSchema.methods.correctPassword = async function(
     candidatePassword, userPassword
 ){
     return bcrypt.compare(candidatePassword, userPassword)
 };
 
+// UserSchema.pre(/^find/, function (next, req, callback) {
+//     next()
+// })
 
 module.exports = mongoose.model('User', UserSchema);

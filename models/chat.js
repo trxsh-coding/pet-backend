@@ -2,12 +2,21 @@ import mongoose from 'mongoose'
 
 const ChatSchema = new mongoose.Schema(
     {
-        creatorId: {
-            type:mongoose.Schema.ObjectId,
-            ref:'User',
-            unique:true
+        members:[
+            {
+                user :  {
+                    type:mongoose.Schema.ObjectId,
+                    ref : 'User'
+                },
+                delivered : Boolean,
+                read : Boolean,
+                lastSeen : Date
+            }
+        ],
+        isPrivate:{
+            type:Boolean,
+            default: true
         },
-
         chatImage: {
             type:String
         },
@@ -16,7 +25,22 @@ const ChatSchema = new mongoose.Schema(
             default: Date.now()
         },
 
+    },
+    {
+        toObject: {
+            virtuals: true
+        },
+        toJSON: {
+            virtuals: true
+        }
     }
 );
 
-module.exports = mongoose.model('Message', ChatSchema);
+
+ChatSchema.virtual('messages', {
+    ref:'Message',
+    foreignField:'chatId',
+    localField:'_id'
+});
+
+module.exports = mongoose.model('Chat', ChatSchema);

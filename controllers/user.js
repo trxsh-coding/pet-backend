@@ -6,7 +6,7 @@ import Pet from '../models/pet'
 import ApiError from "../utils/appError";
 import jwt from 'jsonwebtoken'
 import {promisify} from 'util'
-import {createDocument, updateDocumentPicture} from "./generic";
+import {createDocument, getOne, updateDocumentPicture} from "./generic";
 
 const signToken = id => {
     return jwt.sign({id}, process.env.ACCESS_TOKEN_SECRET, {
@@ -27,7 +27,6 @@ export const updateUserAvatar = updateDocumentPicture(User, 'avatar');
 export const updateUserBackground = updateDocumentPicture(User, 'background');
 
 const checkSubscriptions = async (currentId, id) => {
-    console.log(currentId, id)
     // const subscription = await Subscription.findOne({
     //     creatorId:currentId,
     //     followerId: id
@@ -75,6 +74,7 @@ export const signin  = catchAsync(async (req, res, next) => {
         return next(new ApiError(`please provide email and password`, 400))
     }
     const user = await User.findOne({email});
+    if(!user) return next(new ApiError(`Такого юзера нет`, 400))
     const correct = await user.correctPassword(password, user.password);
 
     if(!correct || !user){
@@ -162,7 +162,6 @@ export const unfollowUser = catchAsync( async (req, res, next) => {
 export const getSubscriptions = catchAsync( async (req, res, next) => {
 
     const subscriptions = await Subscription.find({creatorId:req.user._id})
-    console.log(subscriptions)
     const array = subscriptions.map(el =>
         {
             return el.followerId
@@ -190,15 +189,15 @@ export const updateCurrentUser = catchAsync( async (req, res, next) => {
 
     }
     const filteredBody = filterObj(req.body, 'username', 'city', 'phone');
-    console.log(filteredBody)
     const user = await User.findByIdAndUpdate(req.user.id, filteredBody, {
         new:true,
         runValidators:true
     });
-    console.log(user)
     res.status(200).json({
         user
     })
 
 
 });
+
+const getUserById = getOne(User, 'pets')

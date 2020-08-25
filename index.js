@@ -4,6 +4,7 @@ import usersRoute from './routes/user'
 import chatRoute from './routes/chat'
 import petRoute from './routes/pet'
 import postRoute from './routes/post'
+import messageRoute from './routes/message'
 
 import {errorController} from './controllers/error'
 import cookieParser from 'cookie-parser';
@@ -20,6 +21,8 @@ app.use('/api/v1/user', usersRoute);
 app.use('/api/v1/chat', chatRoute);
 app.use('/api/v1/post', postRoute);
 app.use('/api/v1/pet', petRoute);
+app.use('/api/v1/message', messageRoute);
+
 app.get('/',(req,res) => {
     res.send("Hello Babel")
 });

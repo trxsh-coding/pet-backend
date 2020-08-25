@@ -7,15 +7,24 @@ const http = require('http');
 const {PORT, DB_CONNECTION} = process.env;
 const server = http.createServer(app);
 const io = socket(server);
+export const clients = new Map()
 io.on('connection', socket => {
-    console.log('someone connected')
-    socket.on("chat message", msg => {
-        io.emit("chat message", msg);
-    });
-    socket.on('disconnect', () => {
+    let id = socket.handshake.query.id
+    clients.set(id, {socketID:socket.id})
+    console.log(clients)
+
+    socket.on('private-message', (data) => {
+        console.log(data)
+        const client = clients.get(data.receiverId)
+        io.to(client.socketID).emit('get-message', 'I just met you')
+    })
+
+
+    socket.on('disconnect', (callback) => {
         console.log('User had left!!!');
     })
 });
+
 mongoose
     .connect(DB_CONNECTION, {useNewUrlParser:true, useCreateIndex:true, useFindAndModify:false})
     .then(() => console.log('u are connected to DB'))

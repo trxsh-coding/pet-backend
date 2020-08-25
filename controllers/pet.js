@@ -13,7 +13,6 @@ export const protectPet = catchAsync(async (req, res, next) => {
 });
 
 export const subscriptionCheck = catchAsync(async (req, res, next) => {
-    console.log('subs')
    if(!req.user) next();
    else if(req.user) {
        const subscription = await Subscription.find({creatorId: req.user._id})
@@ -56,7 +55,6 @@ export const getAllPets  = catchAsync(async (req, res, next) => {
 
 export const subscribePet  = catchAsync(async (req, res, next) => {
     const pet = await Pet.findById(req.params.id)
-    console.log(req.params.id)
     if(pet.ownerId == req.user.id) next(new ApiError('you cant sub yourself', 500))
     const newSubscription = await Subscription.create({
         creatorId:req.user.id,

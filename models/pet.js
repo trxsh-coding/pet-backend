@@ -51,7 +51,6 @@ const PetSchema = new mongoose.Schema(
 
 
 PetSchema.pre(/^find/, function (next) {
-    console.log(next())
    // this.populate({
    //    path: 'ownerId',
    //    select:'_id username'

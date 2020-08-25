@@ -14,7 +14,6 @@ export const createPost  = catchAsync(async (req, res, next) => {
 });
 
 export const createComment  = catchAsync( async (req, res, next) => {
-    console.log(req.user)
     let doc = await Comment.create({
         author:req.user.id,
         postId:req.body.id,

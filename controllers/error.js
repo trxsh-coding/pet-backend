@@ -12,7 +12,6 @@ const handleDuplicateError = err => {
 };
 
 const handleSwitchAction = (error) => {
-    console.log(error.name)
     switch (error.name || error.code) {
         case 'CastError':
             return handleCastErrorDB(error);
@@ -32,7 +31,6 @@ const handleSwitchAction = (error) => {
 const handleValidationError = err => {
     const message = `errors`;
     let data = {};
-    console.log(err.errors)
     const errors = Object.values(err.errors).map(el =>  {
         data = {...data, ...{[el.path]:el.message}}
     } );
@@ -74,15 +72,12 @@ const sendErrorProd = (err, res) => {
 };
 
 export const errorController = ((err, req, res, next) => {
-    console.log(err)
     err.statusCode = err.statusCode || 500;
     err.status = err.status || 'error';
     if(process.env.NODE_ENV === 'dev') {
         sendErrorDev(err, res);
     } else if(process.env.NODE_ENV === 'prod') {
-        console.log(err, 'err')
         let error = err;
-        console.log(err.message)
         error.message = err.message;
         error = handleSwitchAction(error);
         sendErrorProd(error, res);

@@ -4,7 +4,7 @@ const MessageSchema = new mongoose.Schema(
     {
         description: {
             type:String,
-            required:[true, 'Please provide your username'],
+            required:[true, 'Please provide description'],
             maxlength:[500, 'Username can contain only 500 characters']
         },
         picture: {
@@ -14,7 +14,11 @@ const MessageSchema = new mongoose.Schema(
             type:Date,
             default: Date.now()
         },
-        recieverId: {
+        receiverId: {
+            type:mongoose.Schema.ObjectId,
+            ref:'User'
+        },
+        creatorId: {
             type:mongoose.Schema.ObjectId,
             ref:'User'
         },
@@ -23,6 +27,10 @@ const MessageSchema = new mongoose.Schema(
             ref:'Chat'
         }
 
+    },
+    {
+        toJSON: {virtuals:true},
+        toObject: {virtuals: true}
     }
 );
 
