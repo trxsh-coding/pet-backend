@@ -13,11 +13,17 @@ const PetSchema = new mongoose.Schema(
             required:[true, 'Please provide pet type'],
             maxlength:[15, 'Username can contain only 10 characters']
         },
+        amountOfFollowers: {
+            type:Number
+        },
         gender: {
             type:String
         },
         ages: {
             type:Number
+        },
+        breed: {
+            type:String
         },
         ownerId: {
             type:mongoose.Schema.ObjectId,
@@ -43,13 +49,6 @@ const PetSchema = new mongoose.Schema(
     }
 );
 
-// PetSchema.methods.subscriptionCheck = async function(
-//     candidatePassword, userPassword
-// ){
-//     return bcrypt.compare(candidatePassword, userPassword)
-// };
-
-
 PetSchema.pre(/^find/, function (next) {
    // this.populate({
    //    path: 'ownerId',
@@ -59,16 +58,5 @@ PetSchema.pre(/^find/, function (next) {
 });
 
 
-// PetSchema.virtual('followee', {
-//     ref: 'Subscriptions',
-//     localField: 'followee',
-//     foreignField: 'subscriptionId',
-// });
-
-
-// PetSchema.pre('save', function (next, req, callback) {
-//     console.log(req)
-//     next()
-// })
 
 module.exports = mongoose.model('Pet', PetSchema);

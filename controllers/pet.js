@@ -5,10 +5,11 @@ import ApiError from "../utils/appError";
 import User from "../models/user";
 import Subscription from "../models/subscriptions";
 import Post from "../models/post";
+import {getMapId, sortById} from "../utils/arrayMethods";
 
 export const protectPet = catchAsync(async (req, res, next) => {
     if(!req.user._id) next(new ApiError('you are not logged in to do anything', 500));
-    if(req.body.ownerId != req.user._id) next(new ApiError('you are not allowed to do it'))
+    if(req.body.ownerId !== req.user.id) next(new ApiError('you are not allowed to do it'))
     next();
 });
 
@@ -16,10 +17,12 @@ export const subscriptionCheck = catchAsync(async (req, res, next) => {
    if(!req.user) next();
    else if(req.user) {
        const subscription = await Subscription.find({creatorId: req.user._id})
+       console.log(subscription)
        if (subscription.length) {
            const doc = await Pet.findById(req.params.id)
                .exec((err, object) => {
                    object.set('followee', true);
+                   object.set('amountOfFollowers', subscription.length)
                    return res.status(200).json({
                        [object._id]:object
                    });
@@ -33,7 +36,14 @@ export const subscriptionCheck = catchAsync(async (req, res, next) => {
 export const updatePet = updateOne(Pet);
 export const deletePet = deleteDocument(Pet);
 export const getPet  = getOne(Pet);
-export const createPet  = createDocument(Pet);
+export const createPet  = catchAsync(async (req, res, next) => {
+    const pet = await Pet.create({
+        ...req.body,
+        avatar:req.file.filename,
+        ownerId:req.user._id,
+    });
+    res.status(200).json({[pet._id]:pet});
+});
 export const updatePetAvatar = updateDocumentPicture(Pet, 'avatar');
 export const updatePetBackground = updateDocumentPicture(Pet, 'background');
 export const getUserPets  = catchAsync(async (req, res, next) => {
@@ -44,6 +54,17 @@ export const getUserPets  = catchAsync(async (req, res, next) => {
         data:pets
     })
 });
+
+export const searchPetsByQuery  = catchAsync(async (req, res, next) => {
+    const pets = await Pet.find(req.query)
+    res.status(200).json(
+        {
+            pets: sortById(pets),
+            items:getMapId(pets)
+        }
+    )
+});
+
 
 export const getAllPets  = catchAsync(async (req, res, next) => {
     const pets = await Pet.find();

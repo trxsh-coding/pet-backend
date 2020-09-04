@@ -1,12 +1,14 @@
 import express from 'express'
 import {createChat} from "../controllers/chat";
 import {RouteProtect} from "../controllers/user";
-import {sendMessage} from "../controllers/message";
+import {createMessage, createMessageWithRoom, sendMessage} from "../controllers/message";
 const router = express.Router();
 
 router
+    .route('/room')
+    .post(RouteProtect(true), createMessageWithRoom)
+router
     .route('/')
-    .post(RouteProtect(true), sendMessage)
-
+    .post(RouteProtect(true), createMessage)
 module.exports = router;
 

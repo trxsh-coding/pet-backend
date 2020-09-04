@@ -5,7 +5,7 @@ import {
     getAllPets,
     getPet, getPetFeed,
     getUserPets,
-    protectPet, subscribePet, subscriptionCheck, unsubscribePet,
+    protectPet, searchPetsByQuery, subscribePet, subscriptionCheck, unsubscribePet,
     updatePet,
     updatePetAvatar, updatePetBackground
 } from "../controllers/pet";
@@ -26,7 +26,10 @@ router.patch('/updateBackground', RouteProtect(true), uploadImage('background'),
 router
     .route('/')
     .get(getAllPets)
-    .post(RouteProtect(true), protectPet, createPet);
+    .post(RouteProtect(true), uploadImage('avatar'),  createPet);
+router
+    .route('/search')
+    .get(searchPetsByQuery)
 router
     .route('/:id')
     .delete(deletePet)

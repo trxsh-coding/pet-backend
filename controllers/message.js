@@ -2,8 +2,9 @@ import {catchAsync} from "./error";
 import Message from "../models/message";
 import Chat from "../models/chat";
 import {createChat} from "./chat";
+import {clients} from "../server";
 
-export const sendMessage = catchAsync( async (req, res, next) => {
+export const createMessageWithRoom = catchAsync( async (req, res, next) => {
     let {chatId, description, receiverId} = req.body;
     const creatorId = req.user._id;
     if(!chatId) {
@@ -38,6 +39,26 @@ export const sendMessage = catchAsync( async (req, res, next) => {
 
     }
 
+
+})
+
+export const createMessage = catchAsync( async (req, res, next) => {
+    let {chatId, description, receiverId} = req.body;
+    const creatorId = req.user._id;
+    const socket = req.app.get('socket')
+    const io = req.app.get('io')
+    const message =  await Message.create({
+        chatId,
+        receiverId,
+        creatorId,
+        description
+    })
+    socket.on('private-message',  (data) => {
+        const receiver = clients.get(receiverId);
+        if(receiver) socket.to(receiver.socketID).emit('get-message', message);
+
+    })
+    res.status(200).json(message)
 
 })
 

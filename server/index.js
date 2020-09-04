@@ -1,27 +1,30 @@
 import app from '../index.js'
 import mongoose from 'mongoose'
 import socket from 'socket.io'
+import Message from '../models/message'
+import User from '../models/user'
 
 const http = require('http');
 
 const {PORT, DB_CONNECTION} = process.env;
 const server = http.createServer(app);
-const io = socket(server);
+export const io = socket(server);
 export const clients = new Map()
-io.on('connection', socket => {
+
+io.on('connection', async socket => {
     let id = socket.handshake.query.id
     clients.set(id, {socketID:socket.id})
-    console.log(clients)
-
-    socket.on('private-message', (data) => {
-        console.log(data)
-        const client = clients.get(data.receiverId)
-        io.to(client.socketID).emit('get-message', 'I just met you')
+    app.set('socket', socket);
+    app.set('io', io);
+    const user = await User.findByIdAndUpdate(id, {
+        online:true
     })
-
-
     socket.on('disconnect', (callback) => {
-        console.log('User had left!!!');
+        clients.delete(socket.handshake.query.id)
+        User.findByIdAndUpdate(id, {
+            online:false,
+            lastSeen:new Date()
+        })
     })
 });
 
