@@ -4,10 +4,11 @@ import socket from 'socket.io'
 import Message from '../models/message'
 import User from '../models/user'
 const server = require('http').Server(app);
-const {PORT, DB_CONNECTION} = process.env;
+const DB_CONNECTION = process.env.DB_CONNECTION;
+const port = process.env.PORT || 5000
 export const io = socket(server);
 export const clients = new Map()
-server.listen(PORT || 3000, () => console.log(`trash ${PORT} port`));
+server.listen(port || 3000, () => console.log(`trash ${port} port`));
 
 io.on('connection', async socket => {
     let id = socket.handshake.query.id
