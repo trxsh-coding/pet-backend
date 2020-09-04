@@ -50,15 +50,15 @@ export const RouteProtect = (guard = true) => catchAsync(async (req, res, next) 
     next()
 });
 
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
 
     const token = signToken(user._id);
 
     const cookieOptions =  {
         expires:  new Date(Date.now() + process.env.ACCESS_TOKEN_EXPIRES * 24 * 60 * 1000),
-        httpOnly:true
+        httpOnly:true,
+        secure: req.secure || req.headers('x-forwarded-proto') === 'https'
     };
-
     res.cookie('jwt', token, cookieOptions);
 
     res.status(statusCode).json({
@@ -81,7 +81,7 @@ export const signin  = catchAsync(async (req, res, next) => {
         next(new ApiError('incorrect user or password', 401))
     }
 
-    createSendToken(user, 200, res)
+    createSendToken(user, 200, req, res)
 
 });
 
