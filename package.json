@@ -8,7 +8,9 @@
     "start": "babel-node ./build",
     "clean": "rm -rf build && mkdir build",
     "build-babel": "babel -d ./build ./server -s",
-    "build": "npm run clean && npm run build-babel"
+    "build": "npm run clean && npm run build-babel",
+    "heroku-postbuild": "npm run build"
+
   },
   "author": "Orest Known",
   "license": "ISC",
