@@ -11,8 +11,10 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import 'dotenv/config';
 const app = express();
-app.use(cors());
-app.use(bodyParser.json());
+app.use(cors({
+    credentials: true,
+    origin: ["http://localhost:3000", "https://www.pethouse.cat", "https://pethouse.cat"]
+}));app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(`${__dirname}/public`));
 app.use('/api/v1/user', usersRoute);
