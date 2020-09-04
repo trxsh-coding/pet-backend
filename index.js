@@ -14,7 +14,8 @@ const app = express();
 app.enable('trust proxy');
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors({origin: ['http://localhost:3000', 'http://localhost:3001', 'https://www.pethouse.cat/'], credentials: true}));
+app.use(cors());
+app.options('*', cors())
 app.use(express.static(`${__dirname}/public`));
 
 app.use('/api/v1/user', usersRoute);
