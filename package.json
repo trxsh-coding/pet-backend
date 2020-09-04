@@ -4,8 +4,8 @@
   "description": "",
   "main": "server",
   "scripts": {
-    "dev": "export NODE_ENV=prod && nodemon --exec babel-node ./server",
-    "start": "node --exec babel-node server"
+    "start:dev": "export NODE_ENV=dev && nodemon --exec babel-node ./server",
+    "start:prod": "export NODE_ENV=prod && nodemon --exec babel-node ./server"
   },
   "author": "Orest Known",
   "license": "ISC",
@@ -28,8 +28,10 @@
     "validator": "^13.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.2",
-    "@babel/node": "^7.10.1"
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/node": "^7.10.5",
+    "babel-plugin-module-resolver": "^4.0.0"
   },
   "engines": {
     "node": ">= 10.0.0"
