@@ -33,4 +33,4 @@ mongoose
     .then(() => console.log('u are connected to DB'))
     .catch( (e) => console.log(e));
 
-server.listen(PORT, () => console.log(`u are listening to ${PORT} port`));
+server.listen(PORT || 3000, () => console.log(`u are listening to ${PORT} port`));
