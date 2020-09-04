@@ -5,7 +5,10 @@
   "main": "server",
   "scripts": {
     "dev": "export NODE_ENV=prod && nodemon --exec babel-node ./server",
-    "start": "babel-node ./build"
+    "start": "babel-node ./build",
+    "clean": "rm -rf build && mkdir build",
+    "build-babel": "babel -d ./build ./server -s",
+    "build": "npm run clean && npm run build-babel"
   },
   "author": "Orest Known",
   "license": "ISC",
