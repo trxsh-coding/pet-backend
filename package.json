@@ -4,6 +4,7 @@
   "description": "",
   "main": "server",
   "scripts": {
+    "dev": "export NODE_ENV=prod && nodemon --exec babel-node ./server",
     "start": "node server"
   },
   "author": "Orest Known",
@@ -29,5 +30,8 @@
   "devDependencies": {
     "@babel/core": "^7.10.2",
     "@babel/node": "^7.10.1"
+  },
+  "engines": {
+    "node": ">= 10.0.0"
   }
 }
