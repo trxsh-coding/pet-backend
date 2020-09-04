@@ -22,7 +22,16 @@ app.use('/api/v1/chat', chatRoute);
 app.use('/api/v1/post', postRoute);
 app.use('/api/v1/pet', petRoute);
 app.use('/api/v1/message', messageRoute);
-
+app.enable('trust proxy');
+// app.use(express.session({
+//     secret : 'trxsh',
+//     key : 'sid',
+//     proxy : true, // add this when behind a reverse proxy, if you need secure cookies
+//     cookie : {
+//         secure : true,
+//         maxAge: 5184000000 // 2 months
+//     }
+// }));
 app.get('/',(req,res) => {
     res.send("Hello Babel")
 });
