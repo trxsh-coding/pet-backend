@@ -3,13 +3,11 @@ import mongoose from 'mongoose'
 import socket from 'socket.io'
 import Message from '../models/message'
 import User from '../models/user'
-
-const http = require('http');
-
+const server = require('http').Server(app);
 const {PORT, DB_CONNECTION} = process.env;
-const server = http.createServer(app);
 export const io = socket(server);
 export const clients = new Map()
+server.listen(PORT || 3000, () => console.log(`trash ${PORT} port`));
 
 io.on('connection', async socket => {
     let id = socket.handshake.query.id
@@ -33,4 +31,3 @@ mongoose
     .then(() => console.log('u are connected to DB'))
     .catch( (e) => console.log(e));
 
-server.listen(PORT || 3000, () => console.log(`u are listening to ${PORT} port`));
