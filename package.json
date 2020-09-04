@@ -10,7 +10,6 @@
     "build-babel": "babel -d ./build ./server -s",
     "build": "npm run clean && npm run build-babel",
     "heroku-postbuild": "npm run build"
-
   },
   "author": "Orest Known",
   "license": "ISC",
@@ -33,7 +32,8 @@
     "validator": "^13.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.2",
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
     "@babel/node": "^7.10.1"
   },
   "engines": {
