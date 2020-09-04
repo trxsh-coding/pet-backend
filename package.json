@@ -4,8 +4,6 @@
   "description": "",
   "main": "server",
   "scripts": {
-    "start:dev": "export NODE_ENV=dev && nodemon --exec babel-node ./server",
-    "start:prod": "export NODE_ENV=prod && nodemon --exec babel-node ./server",
     "start": "node server"
   },
   "author": "Orest Known",
