@@ -11,7 +11,6 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import 'dotenv/config';
 const app = express();
-app.enable('trust proxy');
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
