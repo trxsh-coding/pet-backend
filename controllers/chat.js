@@ -29,16 +29,17 @@ export const createChat  = catchAsync( async (req, res, next) => {
 
 export const findChatRoom = catchAsync( async (req, res, next) => {
     let chat =  await Chat.find()
-        .where({'members.user':req.user})
+        .where({'members.user':req.user.id})
         .where({'members.user':req.params.id})
+    console.log(chat)
     if(!chat.length) return res.status(200).json('chat not created yet')
-    chat = await chat.populate([
-        {
-            path: 'members',
-            populate: { path: 'user', select:'id avatar username' },
-        }
-    ]);
-    res.status(200).json('hallo')
+    // chat = await chat.populate([
+    //     {
+    //         path: 'members',
+    //         populate: { path: 'user', select:'id avatar username' },
+    //     }
+    // ]);
+    res.status(200).json(chat[0])
 })
 
 
