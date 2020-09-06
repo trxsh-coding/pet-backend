@@ -12,16 +12,9 @@ import cors from 'cors';
 import session from 'express-session'
 import 'dotenv/config';
 const app = express();
-app.use(session({
-    secret: 'trxsh',
-    cookie: {
-        httpOnly: true,
-        secure: true
-    }
-}));
 app.use(cors({
     credentials: true,
-    origin: 'https://www.pethouse.cat'
+    origin: ["http://localhost:3000", "https://www.pethouse.cat", "https://pethouse.cat"]
 }));
 app.use(bodyParser.json());
 app.use(cookieParser());
