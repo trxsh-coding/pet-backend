@@ -103,6 +103,11 @@ export const getCurrentUser = catchAsync( async (req, res, next) => {
 
 });
 
+export const logout = catchAsync( async (req, res, next) => {
+    res.clearCookie('jwt');
+    res.status(200).json('success')
+});
+
 
 export const getAllUsers = catchAsync( async (req, res, next) => {
     const users = await User.find().populate('pets');
