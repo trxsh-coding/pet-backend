@@ -52,7 +52,10 @@ const UserSchema = new mongoose.Schema(
             type:String,
             default:'avatar.png'
         },
-        background: String,
+        background: {
+            type:String,
+            default:'background.png'
+        },
         phone:String,
         city:String,
         passwordChangedAt:Date,
