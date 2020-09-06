@@ -19,12 +19,12 @@ io.on('connection', async socket => {
     const user = await User.findByIdAndUpdate(id, {
         online:true
     })
-    socket.on('disconnect', (callback) => {
+    socket.on('disconnect', async (callback) => {
         console.log(callback)
         clients.delete(socket.handshake.query.id)
-        User.findByIdAndUpdate(id, {
+        await User.findByIdAndUpdate(id, {
             online:false,
-            lastSeen:new Date()
+            lastSeen:Date.now()
         })
     })
 });

@@ -33,6 +33,7 @@ const PetSchema = new mongoose.Schema(
             type:String,
             default:"pet-avatar.jpg"
         },
+
         background: {
             type:String,
             default:"background.png"

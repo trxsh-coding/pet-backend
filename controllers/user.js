@@ -179,7 +179,7 @@ export const getSubscriptions = catchAsync( async (req, res, next) => {
 });
 
 export const updateCurrentUser = catchAsync( async (req, res, next) => {
-
+    console.log(req.body)
     if(req.body.password || req.body.passwordConfirm){
 
         next(new ApiError(
@@ -187,13 +187,13 @@ export const updateCurrentUser = catchAsync( async (req, res, next) => {
         ))
 
     }
-    const filteredBody = filterObj(req.body, 'username', 'city', 'phone');
+    const filteredBody = filterObj(req.body, 'username', 'city', 'phone', 'about');
     const user = await User.findByIdAndUpdate(req.user.id, filteredBody, {
         new:true,
         runValidators:true
     });
     res.status(200).json({
-        user
+        [user.id]:user
     })
 
 

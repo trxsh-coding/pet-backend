@@ -37,6 +37,10 @@ const UserSchema = new mongoose.Schema(
             type:Boolean,
             default:false
         },
+        lastSeen: {
+            type:Date
+        },
+        about: String,
         passwordConfirm: {
             type:String,
             required:[true, 'Please confirm your password'],
