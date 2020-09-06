@@ -23,18 +23,7 @@ app.use('/api/v1/chat', chatRoute);
 app.use('/api/v1/post', postRoute);
 app.use('/api/v1/pet', petRoute);
 app.use('/api/v1/message', messageRoute);
-app.set("trust proxy",1);
-app.use(session({
-    name: "random_session",
-    secret: "trxsh",
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        path: "/",
-        secure: true,
-        httpOnly: true
-    }
-}));
+
 app.get('/',(req,res) => {
     res.send("Hello Babel")
 });
