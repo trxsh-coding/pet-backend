@@ -13,12 +13,14 @@ server.listen(port || 3000, () => console.log(`trash ${port} port`));
 io.on('connection', async socket => {
     let id = socket.handshake.query.id
     clients.set(id, {socketID:socket.id})
+    console.log(clients)
     app.set('socket', socket);
     app.set('io', io);
     const user = await User.findByIdAndUpdate(id, {
         online:true
     })
     socket.on('disconnect', (callback) => {
+        console.log(callback)
         clients.delete(socket.handshake.query.id)
         User.findByIdAndUpdate(id, {
             online:false,

@@ -53,11 +53,9 @@ export const createMessage = catchAsync( async (req, res, next) => {
         creatorId,
         description
     })
-    socket.on('private-message',  (data) => {
-        const receiver = clients.get(receiverId);
-        if(receiver) socket.to(receiver.socketID).emit('get-message', message);
-
-    })
+    const receiver = clients.get(receiverId);
+    console.log(receiver)
+    if(receiver) socket.to(receiver.socketID).emit('get-message', message);
     res.status(200).json(message)
 
 })
