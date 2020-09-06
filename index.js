@@ -21,7 +21,7 @@ app.use(session({
 }));
 app.use(cors({
     credentials: true,
-    origin: ["http://localhost:3000", "https://www.pethouse.cat", "https://pethouse.cat"]
+    origin: 'https://www.pethouse.cat'
 }));
 app.use(bodyParser.json());
 app.use(cookieParser());
