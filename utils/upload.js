@@ -26,3 +26,10 @@ const upload = multer({
 
 
 export const uploadImage = name => upload.single(name);
+
+export const uploadImages = count => upload.fields([
+    {
+        name:'images',
+        maxCount: count,
+    }
+])

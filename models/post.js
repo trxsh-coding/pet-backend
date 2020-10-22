@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import UserSchema from './user'
+import bcrypt from "bcrypt";
 const PostSchema = new mongoose.Schema(
     {
         authorId: {
@@ -17,6 +17,10 @@ const PostSchema = new mongoose.Schema(
         date: {
             type:Date,
             default:Date.now()
+        },
+        likeId: {
+            type:String,
+            default: null
         }
 
     }, {
@@ -41,5 +45,54 @@ PostSchema.virtual('comments', {
     localField:'_id'
 });
 
+
+PostSchema.virtual('amountOfLikes', {
+    ref: 'Like',
+    localField: '_id',
+    foreignField: 'postId',
+    count:true
+});
+
+PostSchema.virtual('likes', {
+    ref: 'Like',
+    localField: '_id',
+    foreignField: 'postId',
+});
+
+PostSchema.virtual('isLiked', {
+    ref: 'Like',
+    localField: '_id',
+    foreignField: 'postId',
+    count:true
+});
+
+PostSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'comments',
+        populate: { path: 'author' }
+    });
+    this.populate({
+        path:'authorId',
+        select:'name id avatar ownerId'
+    });
+    this.populate({
+        path:'amountOfLikes',
+    });
+    this.populate({
+        path:'likes',
+        populate: {
+            path:'creatorId',
+            select:'username avatar'
+        }
+    });
+
+
+    next();
+});
+
+PostSchema.methods.likeCheck =  function(id){
+    console.log(id)
+    return id
+};
 
 module.exports = mongoose.model('Post', PostSchema);

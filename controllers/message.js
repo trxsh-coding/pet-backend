@@ -55,7 +55,10 @@ export const createMessage = catchAsync( async (req, res, next) => {
     })
     const receiver = clients.get(receiverId);
     console.log(receiver)
-    if(receiver) socket.to(receiver.socketID).emit('get-message', message);
+    if(receiver) {
+        io.to(receiver['socketID']).emit('get-message', message);
+        console.log(receiver, message)
+    }
     res.status(200).json(message)
 
 })
