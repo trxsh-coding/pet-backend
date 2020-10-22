@@ -34,5 +34,5 @@ router
     .route('/:id')
     .delete(deletePet)
     .get(RouteProtect(true), subscriptionCheck, getPet)
-    .patch(protectPet, updatePet);
+    .patch(RouteProtect(true),   updatePet);
 module.exports = router;

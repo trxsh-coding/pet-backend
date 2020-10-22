@@ -2,6 +2,7 @@ import {catchAsync} from "./error";
 import User from '../models/user'
 import Subscription from '../models/subscriptions'
 import Pet from '../models/pet'
+import NotificationType from '../models/notificationType'
 
 import ApiError from "../utils/appError";
 import jwt from 'jsonwebtoken'
@@ -35,30 +36,32 @@ const checkSubscriptions = async (currentId, id) => {
 };
 
 export const RouteProtect = (guard = true) => catchAsync(async (req, res, next) => {
+
     let token = req.cookies.jwt;
 
-    if(!token) return next(new ApiError('Access! Please login to get access', 401));
+    if(!token && guard) return next(new ApiError('Access! Please login to get access', 401));
 
-    const decoded = await promisify(jwt.verify)(token, process.env.ACCESS_TOKEN_SECRET);
+    if(token){
+        const decoded = await promisify(jwt.verify)(token, process.env.ACCESS_TOKEN_SECRET);
 
-    const enabledUser = await User.findById(decoded.id);
+        const enabledUser = await User.findById(decoded.id);
 
-    if(!enabledUser) return next(new ApiError('User is not exists'), 401);
+        if(!enabledUser) return next(new ApiError('User is not exists'), 401);
 
-    req.user = enabledUser;
-
+        req.user = enabledUser;
+    }
     next()
+
 });
 
-const createSendToken = (user, statusCode, res) => {
-
+const createSendToken = (user, statusCode, req, res) => {
     const token = signToken(user._id);
-
     const cookieOptions =  {
         expires:  new Date(Date.now() + process.env.ACCESS_TOKEN_EXPIRES * 24 * 60 * 1000),
-        httpOnly:true
+        httpOnly:true,
+        // sameSite: 'none',
+        // secure:true
     };
-
     res.cookie('jwt', token, cookieOptions);
 
     res.status(statusCode).json({
@@ -81,7 +84,7 @@ export const signin  = catchAsync(async (req, res, next) => {
         next(new ApiError('incorrect user or password', 401))
     }
 
-    createSendToken(user, 200, res)
+    createSendToken(user, 200, req, res)
 
 });
 
@@ -102,6 +105,11 @@ export const getCurrentUser = catchAsync( async (req, res, next) => {
         [user._id]:user
     })
 
+});
+
+export const logout = catchAsync( async (req, res, next) => {
+    res.clearCookie('jwt');
+    res.status(200).json('success')
 });
 
 
@@ -136,6 +144,7 @@ export const followUser = catchAsync( async (req, res, next) => {
         creatorId:req.user.id,
         followerId: req.params.id
     });
+    const subscribeType = await NotificationType
     res.status(200).json({
         status:'success',
         newSubscription
@@ -180,7 +189,7 @@ export const getSubscriptions = catchAsync( async (req, res, next) => {
 });
 
 export const updateCurrentUser = catchAsync( async (req, res, next) => {
-
+    console.log(req.body)
     if(req.body.password || req.body.passwordConfirm){
 
         next(new ApiError(
@@ -188,13 +197,13 @@ export const updateCurrentUser = catchAsync( async (req, res, next) => {
         ))
 
     }
-    const filteredBody = filterObj(req.body, 'username', 'city', 'phone');
+    const filteredBody = filterObj(req.body, 'username', 'city', 'phone', 'about');
     const user = await User.findByIdAndUpdate(req.user.id, filteredBody, {
         new:true,
         runValidators:true
     });
     res.status(200).json({
-        user
+        [user.id]:user
     })
 
 

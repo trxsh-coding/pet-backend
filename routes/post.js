@@ -12,9 +12,9 @@ router.post('/comment', RouteProtect(true), createComment);
 
 router
     .route('/')
-    .get(getAllPosts)
+    .get(RouteProtect(true),getAllPosts)
     .post(RouteProtect(true), uploadImage('picture'),  createPost);
 router
     .route('/:id')
-    .get(getPost)
+    .get(RouteProtect(false),getPost)
 module.exports = router;

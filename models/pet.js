@@ -14,13 +14,14 @@ const PetSchema = new mongoose.Schema(
             maxlength:[15, 'Username can contain only 10 characters']
         },
         amountOfFollowers: {
-            type:Number
+            type:Number,
+            default:0
         },
         gender: {
             type:String
         },
         ages: {
-            type:Number
+            type:String
         },
         breed: {
             type:String
@@ -31,8 +32,9 @@ const PetSchema = new mongoose.Schema(
         },
         avatar: {
             type:String,
-            default:"avatar.png"
+            default:"pet-avatar.jpg"
         },
+
         background: {
             type:String,
             default:"background.png"

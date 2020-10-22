@@ -37,6 +37,10 @@ const UserSchema = new mongoose.Schema(
             type:Boolean,
             default:false
         },
+        lastSeen: {
+            type:Date
+        },
+        about: String,
         passwordConfirm: {
             type:String,
             required:[true, 'Please confirm your password'],
@@ -52,7 +56,10 @@ const UserSchema = new mongoose.Schema(
             type:String,
             default:'avatar.png'
         },
-        background: String,
+        background: {
+            type:String,
+            default:'background.png'
+        },
         phone:String,
         city:String,
         passwordChangedAt:Date,
