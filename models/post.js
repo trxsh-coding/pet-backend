@@ -8,8 +8,8 @@ const PostSchema = new mongoose.Schema(
             required:true
         },
         picture: {
-            type:String,
-            required:true
+            type:mongoose.Schema.ObjectId,
+            ref:'Image'
         },
         description: {
             type:String
@@ -77,6 +77,10 @@ PostSchema.pre(/^find/, function (next) {
     });
     this.populate({
         path:'amountOfLikes',
+    });
+    this.populate({
+        path:'picture',
+        select:'imageURL'
     });
     this.populate({
         path:'likes',

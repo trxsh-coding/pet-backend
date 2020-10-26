@@ -53,12 +53,12 @@ const UserSchema = new mongoose.Schema(
             }
         },
         avatar: {
-            type:String,
-            default:'avatar.png'
+            type:mongoose.Schema.ObjectId,
+            ref:'Image'
         },
         background: {
-            type:String,
-            default:'background.png'
+            type:mongoose.Schema.ObjectId,
+            ref:'Image'
         },
         phone:String,
         city:String,
@@ -95,8 +95,16 @@ UserSchema.methods.correctPassword = async function(
     return bcrypt.compare(candidatePassword, userPassword)
 };
 
-// UserSchema.pre(/^find/, function (next, req, callback) {
-//     next()
-// })
+UserSchema.pre(/^find/, function (next){
+    this.populate({
+        path: 'avatar',
+        select: 'imageURL'
+    });
+    this.populate({
+        path: 'background',
+        select: 'imageURL'
+    });
+    next()
+})
 
 module.exports = mongoose.model('User', UserSchema);

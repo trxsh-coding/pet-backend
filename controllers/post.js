@@ -4,15 +4,17 @@ import Pet from "../models/pet";
 
 import Comment from "../models/comment";
 import {createNotification} from "./notification";
+import 'dotenv/config';
+
 import Subscription from "../models/subscriptions";
 
 export const createPost  = catchAsync(async (req, res, next) => {
-
+    const picture = req.file ? req.file._id : null;
     const {description, authorId} = req.body
     const doc = await Post.create({
         description:description,
         authorId:authorId,
-        picture:req.file.filename
+        picture:picture
     });
     res.status(200).json(doc);
 });

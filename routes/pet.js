@@ -11,6 +11,7 @@ import {
 } from "../controllers/pet";
 import {checkStatus, followUser, RouteProtect, updateUserAvatar, updateUserBackground} from "../controllers/user";
 import {uploadImage} from "../utils/upload";
+import {uploadFile, uploadMiddleware} from "../middlewares/imageMiddleware";
 const router = express.Router();
 
 
@@ -20,13 +21,30 @@ router.get('/getUserPets/:id',  getUserPets);
 router.post('/follow/:id', RouteProtect(true), subscribePet);
 router.get('/feed/:id', getPetFeed);
 router.delete('/unfollow/:id', RouteProtect(true), unsubscribePet);
-router.patch('/updateAvatar', RouteProtect(true), uploadImage('avatar'), updatePetAvatar);
-router.patch('/updateBackground', RouteProtect(true), uploadImage('background'), updatePetBackground);
+router.patch(
+    '/updateAvatar',
+    RouteProtect(true),
+    uploadFile('avatar'),
+    uploadMiddleware,
+    updatePetAvatar
+);
+router.patch(
+    '/updateBackground',
+    RouteProtect(true),
+    uploadFile('background'),
+    uploadMiddleware,
+    updatePetBackground
+);
 
 router
     .route('/')
     .get(getAllPets)
-    .post(RouteProtect(true), uploadImage('avatar'),  createPet);
+    .post(
+        RouteProtect(true),
+        uploadFile('avatar'),
+        uploadMiddleware,
+        createPet
+    );
 router
     .route('/search')
     .get(searchPetsByQuery)
