@@ -23,7 +23,6 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(`${__dirname}/public`));
 app.use('/api/v1/user', usersRoute);
-
 app.use('/api/v1/chat', chatRoute);
 app.use('/api/v1/post', postRoute);
 app.use('/api/v1/pet', petRoute);
