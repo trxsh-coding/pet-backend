@@ -31,14 +31,13 @@ const PetSchema = new mongoose.Schema(
             ref:'User',
         },
         avatar: {
-            type:String,
-            default:"pet-avatar.jpg"
+            type:mongoose.Schema.ObjectId,
+            ref:'Image'
         },
 
         background: {
-            type:String,
-            default:"background.png"
-
+            type:mongoose.Schema.ObjectId,
+            ref:'Image'
         },
         followee:{
             type:Boolean,
@@ -52,10 +51,14 @@ const PetSchema = new mongoose.Schema(
 );
 
 PetSchema.pre(/^find/, function (next) {
-   // this.populate({
-   //    path: 'ownerId',
-   //    select:'_id username'
-   // });
+    this.populate({
+        path: 'background',
+        select: 'imageURL'
+    });
+    this.populate({
+        path: 'avatar',
+        select: 'imageURL'
+    });
     next();
 });
 

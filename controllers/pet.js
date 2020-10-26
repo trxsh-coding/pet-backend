@@ -39,7 +39,7 @@ export const updatePet = updateOne(Pet);
 export const deletePet = deleteDocument(Pet);
 export const getPet  = getOne(Pet);
 export const createPet  = catchAsync(async (req, res, next) => {
-    const avatar = req.file ? req.file.filename : 'pet-avatar.jpg'
+    const avatar = req.file ? req.file._id : 'null'
     const pet = await Pet.create({
         ...req.body,
         ...avatar,

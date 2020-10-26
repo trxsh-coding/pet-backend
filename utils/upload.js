@@ -1,5 +1,7 @@
 import multer from 'multer';
 import ApiError from "./appError";
+import cl from 'cloudinary';
+const cloudinary = cl.v2;
 
 const multerStorage =  multer.diskStorage({
     destination: (req, file, cb) => {
