@@ -51,7 +51,7 @@ export const getUserChats  = catchAsync( async (req, res, next) => {
         .populate([
         {
             path: 'members',
-            populate: { path: 'user', select:'id avatar username' },
+            populate: { path: 'user', select:'id avatar username lastSeen' },
         }
     ]);
     let sortedById = {};
