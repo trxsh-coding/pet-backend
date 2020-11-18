@@ -73,8 +73,7 @@ export const getAllPosts  = catchAsync( async (req, res, next) => {
                 populate: {
                     path:'creatorId'
             }}
-            )
-
+        )
         .exec().then(c => {
             c.map((el, index) => {
                 const likeIndex = el.likes.map(item => item.creatorId._id.toString())
