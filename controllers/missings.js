@@ -6,7 +6,7 @@ import {sortById} from "../utils/arrayMethods";
 import {getOne} from "./generic";
 
 export const createMissing = catchAsync( async (req, res, next) => {
-    const images = req.files.images.map(el => el.filename)
+    const images = req.body.contentIdMap
     const newMissing = await Missing.create({
         ...req.body,
         authorId:req.user._id,

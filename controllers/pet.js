@@ -39,6 +39,7 @@ export const updatePet = updateOne(Pet);
 export const deletePet = deleteDocument(Pet);
 export const getPet  = getOne(Pet);
 export const createPet  = catchAsync(async (req, res, next) => {
+    console.log(req.file)
     const avatar = req.file ? req.file._id : 'null'
     const pet = await Pet.create({
         ...req.body,
@@ -111,7 +112,7 @@ export const unsubscribePet  = catchAsync(async (req, res, next) => {
 export const getPetFeed  = catchAsync(async (req, res, next) => {
     const feed = await Post.find({
         authorId: req.params.id
-    }).sort('-date').populate({
+    }).sort('date').populate({
         path: 'comments',
         populate: { path: 'author' }
     });

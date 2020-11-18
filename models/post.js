@@ -7,9 +7,9 @@ const PostSchema = new mongoose.Schema(
             ref:'Pet',
             required:true
         },
-        picture: {
+        content: {
             type:mongoose.Schema.ObjectId,
-            ref:'Image'
+            ref:'Content'
         },
         description: {
             type:String
@@ -56,8 +56,14 @@ PostSchema.virtual('amountOfLikes', {
 PostSchema.virtual('likes', {
     ref: 'Like',
     localField: '_id',
+    populate:{
+        path:'creatorId',
+        select:'username avatar'
+    },
     foreignField: 'postId',
 });
+
+
 
 PostSchema.virtual('isLiked', {
     ref: 'Like',
@@ -79,18 +85,12 @@ PostSchema.pre(/^find/, function (next) {
         path:'amountOfLikes',
     });
     this.populate({
-        path:'picture',
-        select:'imageURL'
-    });
-    this.populate({
-        path:'likes',
-        populate: {
-            path:'creatorId',
-            select:'username avatar'
-        }
+        path:'content',
+        select:'publicId contentType contentURL'
     });
 
 
+    this.sort('-date')
     next();
 });
 
