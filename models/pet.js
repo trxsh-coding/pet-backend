@@ -32,12 +32,12 @@ const PetSchema = new mongoose.Schema(
         },
         avatar: {
             type:mongoose.Schema.ObjectId,
-            ref:'Image'
+            ref:'Content'
         },
 
         background: {
             type:mongoose.Schema.ObjectId,
-            ref:'Image'
+            ref:'Content'
         },
         followee:{
             type:Boolean,
@@ -53,11 +53,11 @@ const PetSchema = new mongoose.Schema(
 PetSchema.pre(/^find/, function (next) {
     this.populate({
         path: 'background',
-        select: 'imageURL'
+        select: 'contentURL'
     });
     this.populate({
         path: 'avatar',
-        select: 'imageURL'
+        select: 'contentURL'
     });
     next();
 });

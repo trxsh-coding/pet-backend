@@ -66,7 +66,7 @@ NotificationSchema.pre(/^find/, function (next) {
     });
     this.populate({
         path: 'postId',
-        select:'picture'
+        select:'content'
     });
     this.sort('-creationDate')
     next();

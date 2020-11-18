@@ -9,11 +9,15 @@ export const createNotificationType = catchAsync( async (req, res, next) => {
 })
 
 export const createNotification = async (type, body) => {
+    console.log(type)
+    console.log(body)
+
     const notificationType = await NotificationType.findOne({typeName:type})
     const notification = await  Notification.create({
         ...body,
         notificationType:notificationType.id
     })
+    console.log(notification)
 }
 
 export const getUserNotifications =  catchAsync( async (req, res, next) => {

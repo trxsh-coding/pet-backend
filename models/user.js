@@ -54,11 +54,11 @@ const UserSchema = new mongoose.Schema(
         },
         avatar: {
             type:mongoose.Schema.ObjectId,
-            ref:'Image'
+            ref:'Content'
         },
         background: {
             type:mongoose.Schema.ObjectId,
-            ref:'Image'
+            ref:'Content'
         },
         phone:String,
         city:String,
@@ -98,11 +98,11 @@ UserSchema.methods.correctPassword = async function(
 UserSchema.pre(/^find/, function (next){
     this.populate({
         path: 'avatar',
-        select: 'imageURL'
+        select: 'contentURL'
     });
     this.populate({
         path: 'background',
-        select: 'imageURL'
+        select: 'contentURL'
     });
     next()
 })

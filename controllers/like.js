@@ -16,8 +16,10 @@ export const createLike =  catchAsync( async (req, res, next) => {
         creatorId:req.user._id,
         postId:req.params.id
     })
-
+    console.log(newLike)
     const post = await Post.findById(req.params.id)
+
+
     await createNotification('LIKED', {
         creatorId:req.user.id,
         receiverId: req.body.ownerId,
