@@ -22,6 +22,7 @@ router.post('/follow/:id', RouteProtect(true), subscribePet);
 router.get('/feed/:id', getPetFeed);
 router.delete('/unfollow/:id', RouteProtect(true), unsubscribePet);
 router.patch(
+
     '/updateAvatar',
     RouteProtect(true),
     uploadFile('avatar'),

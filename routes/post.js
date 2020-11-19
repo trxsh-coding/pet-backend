@@ -15,7 +15,6 @@ router
         uploadFile('file'),
         uploadMiddleware,
         createPost
-
     );
 router
     .route('/video')

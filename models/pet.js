@@ -5,13 +5,11 @@ const PetSchema = new mongoose.Schema(
     {
         name: {
             type:String,
-            required:[true, 'Please provide pet name'],
-            maxlength:[15, 'Username can contain only 10 characters']
+            required:[true, 'Впишите имя питомца'],
+            maxlength:[15, 'Имя не должно привышать 10 симоволов']
         },
         type: {
             type:String,
-            required:[true, 'Please provide pet type'],
-            maxlength:[15, 'Username can contain only 10 characters']
         },
         amountOfFollowers: {
             type:Number,

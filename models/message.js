@@ -25,9 +25,13 @@ const MessageSchema = new mongoose.Schema(
         chatId: {
             type:mongoose.Schema.ObjectId,
             ref:'Chat'
+        },
+        delivered: {
+            type:Boolean,
+            default: false
         }
-
     },
+
     {
         toJSON: {virtuals:true},
         toObject: {virtuals: true}

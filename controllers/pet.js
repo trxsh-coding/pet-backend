@@ -39,11 +39,10 @@ export const updatePet = updateOne(Pet);
 export const deletePet = deleteDocument(Pet);
 export const getPet  = getOne(Pet);
 export const createPet  = catchAsync(async (req, res, next) => {
-    console.log(req.file)
-    const avatar = req.file ? req.file._id : 'null'
+    const avatar = req.body.contentId ? req.body.contentId : null
     const pet = await Pet.create({
         ...req.body,
-        ...avatar,
+        avatar,
         ownerId:req.user._id,
     });
     res.status(200).json({[pet._id]:pet});
@@ -79,6 +78,7 @@ export const getAllPets  = catchAsync(async (req, res, next) => {
         data:pets
     })
 });
+
 
 export const subscribePet  = catchAsync(async (req, res, next) => {
     const pet = await Pet.findById(req.params.id)
