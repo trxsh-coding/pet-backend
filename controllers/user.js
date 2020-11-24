@@ -71,6 +71,7 @@ const createSendToken = (user, statusCode, req, res) => {
 
 export const signup  = createDocument(User);
 
+
 export const signin  = catchAsync(async (req, res, next) => {
     const {password, email} = req.body;
     if(!email || !password){
