@@ -150,7 +150,7 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
 
     await user.save({validateBeforeSave: false})
 
-    const resetURL = `localhost:3000/auth/resetPassword/${resetToken}`
+    const resetURL = `https://www.pethouse.cat/auth/resetPassword/${resetToken}`
 
     const message = `Forgot password?`
 
