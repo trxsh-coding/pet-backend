@@ -1,12 +1,12 @@
 import express from 'express'
-import {createComment, createPost, getAllPosts, getPost} from "../controllers/post";
+import {createComment, createPost, getAllPosts, getBookmarkedPosts, getPost} from "../controllers/post";
 import {RouteProtect} from "../controllers/user";
 import {uploadFile, uploadMiddleware} from "../middlewares/imageMiddleware";
 import {uploadContentMiddleware} from "../middlewares/contentMiddleware";
 const router = express.Router();
 
 router.post('/comment', RouteProtect(true), createComment);
-
+router.get('/getBookmarkedPosts', RouteProtect(true), getBookmarkedPosts)
 router
     .route('/')
     .get(RouteProtect(true),getAllPosts)

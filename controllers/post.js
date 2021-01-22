@@ -1,12 +1,11 @@
 import {catchAsync} from "./error";
 import Post from "../models/post";
 import Pet from "../models/pet";
-
+import Bookmark from "../models/bookmark";
 import Comment from "../models/comment";
 import {createNotification} from "./notification";
 import 'dotenv/config';
 
-import Subscription from "../models/subscriptions";
 
 export const createPost  = catchAsync(async (req, res, next) => {
     const {description, authorId, contentId} = req.body
@@ -65,6 +64,23 @@ export const getPost  = catchAsync( async (req, res, next) => {
     });
 })
 
+export const getBookmarkedPosts = catchAsync( async (req, res, next) => {
+
+    const bookmarks = await Bookmark.find({creatorId:req.user._id})
+
+    const array = bookmarks.map(el =>  el.postId)
+
+    const posts = await Post.find({_id: {$in: array}})
+    let sortedById = {};
+    posts.map(el => {
+        sortedById = {...sortedById, ...{[el._id]: el}}
+    })
+    res.status(200).json({
+        posts: sortedById,
+        items: array
+    })
+})
+
 
 export const getAllPosts  = catchAsync( async (req, res, next) => {
     let posts = await Post.find()
@@ -74,18 +90,12 @@ export const getAllPosts  = catchAsync( async (req, res, next) => {
                     path:'creatorId'
             }}
         )
-        .exec().then(c => {
-            c.map((el, index) => {
-                const likeIndex = el.likes.map(item => item.creatorId._id.toString())
-                    .indexOf(req.user.id.toString())
-                if(likeIndex >= 0) el.set('likeId', el.likes[likeIndex]._id)
-            })
-            let sortedById = {};
-            c.map( el => {
-                sortedById = {...sortedById, ...{[el._id] : el }}
-            })
-            return res.status(200).json(sortedById);
-        })
+
+    let sortedById = {};
+    posts.map( el => {
+        sortedById = {...sortedById, ...{[el._id] : el }}
+    })
+    res.status(200).json(sortedById)
 
 
 })

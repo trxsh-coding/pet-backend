@@ -18,10 +18,6 @@ const PostSchema = new mongoose.Schema(
             type:Date,
             default:Date.now()
         },
-        likeId: {
-            type:String,
-            default: null
-        }
 
     }, {
         toObject: {
@@ -33,11 +29,6 @@ const PostSchema = new mongoose.Schema(
     }
 );
 
-PostSchema.virtual('author', {
-    ref:'Pet',
-    foreignField:'authorId',
-    localField:'_id'
-});
 
 PostSchema.virtual('comments', {
     ref:'Comment',
@@ -46,12 +37,32 @@ PostSchema.virtual('comments', {
 });
 
 
+
 PostSchema.virtual('amountOfLikes', {
     ref: 'Like',
     localField: '_id',
     foreignField: 'postId',
     count:true
 });
+
+
+PostSchema.virtual('bookmark', {
+    ref: 'Bookmark',
+    localField: '_id',
+    foreignField: 'postId',
+    select: 'id',
+    justOne:true
+});
+
+PostSchema.virtual('likeId', {
+    ref: 'Like',
+    localField: '_id',
+    foreignField: 'postId',
+    select: '_id',
+    justOne:true,
+    default: null
+});
+
 
 PostSchema.virtual('likes', {
     ref: 'Like',
@@ -88,8 +99,15 @@ PostSchema.pre(/^find/, function (next) {
         path:'content',
         select:'publicId contentType contentURL'
     });
-
-
+    this.populate({
+        path:'bookmark',
+    });
+    this.populate({
+        path:'likeId',
+    });
+    this.populate({
+        path: 'likes',
+    });
     this.sort('-date')
     next();
 });

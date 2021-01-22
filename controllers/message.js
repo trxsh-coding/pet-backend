@@ -4,22 +4,22 @@ import Chat from "../models/chat";
 import {createChat} from "./chat";
 import {clients} from "../server";
 
-export const createMessageWithRoom = catchAsync( async (req, res, next) => {
+export const createMessageWithRoom = catchAsync(async (req, res, next) => {
     let {chatId, description, receiverId} = req.body;
     const creatorId = req.user._id;
-    if(!chatId) {
+    if (!chatId) {
         let chat = await Chat.find()
-            .where({'members.user':creatorId})
-            .where({'members.user':receiverId})
-        if(!chat.length){
-             chat = await Chat.create({
+            .where({'members.user': creatorId})
+            .where({'members.user': receiverId})
+        if (!chat.length) {
+            chat = await Chat.create({
                 creatorId,
-                members:[
+                members: [
                     {
-                        user:creatorId,
+                        user: creatorId,
                     },
                     {
-                        user:receiverId
+                        user: receiverId
                     }
                 ]
             })
@@ -28,7 +28,7 @@ export const createMessageWithRoom = catchAsync( async (req, res, next) => {
             chatId = chat[0]._id
         }
 
-        let message =  await Message.create({
+        let message = await Message.create({
             chatId,
             receiverId,
             creatorId,
@@ -42,12 +42,12 @@ export const createMessageWithRoom = catchAsync( async (req, res, next) => {
 
 })
 
-export const createMessage = catchAsync( async (req, res, next) => {
+export const createMessage = catchAsync(async (req, res, next) => {
     let {chatId, description, receiverId} = req.body;
     const creatorId = req.user._id;
     const socket = req.app.get('socket')
     const io = req.app.get('io')
-    const message =  await Message.create({
+    const message = await Message.create({
         chatId,
         receiverId,
         creatorId,
@@ -55,7 +55,7 @@ export const createMessage = catchAsync( async (req, res, next) => {
     })
     const receiver = clients.get(receiverId);
     console.log(receiver)
-    if(receiver) socket.to(receiver.socketID).emit('get-message', message);
+    if (receiver) socket.to(receiver.socketID).emit('get-message', message);
     res.status(200).json(message)
 
 })

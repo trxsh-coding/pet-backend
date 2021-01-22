@@ -8,6 +8,7 @@ import messageRoute from './routes/message'
 import notificationRoute from './routes/notification'
 import likeRoute from './routes/like'
 import missingRoute from './routes/missing'
+import bookmarkRoute from './routes/bookmark'
 
 import {errorController} from './controllers/error'
 import cookieParser from 'cookie-parser';
@@ -30,6 +31,7 @@ app.use('/api/v1/message', messageRoute);
 app.use('/api/v1/notification', notificationRoute);
 app.use('/api/v1/like', likeRoute);
 app.use('/api/v1/missing', missingRoute);
+app.use('/api/v1/bookmark', bookmarkRoute);
 
 app.get('/',(req,res) => {
     res.send("Hello Babel")

@@ -40,6 +40,9 @@ const UserSchema = new mongoose.Schema(
         lastSeen: {
             type:Date
         },
+        passwordChangedAt:Date,
+        passwordResetToken:String,
+        passwordResetExpires:Date,
         about: String,
         passwordConfirm: {
             type:String,
@@ -62,9 +65,7 @@ const UserSchema = new mongoose.Schema(
         },
         phone:String,
         city:String,
-        passwordChangedAt:Date,
-        passwordResetToken:String,
-        passwordResetExpires:Date
+
     },
     {
         toJSON: {virtuals:true},
@@ -94,6 +95,23 @@ UserSchema.methods.correctPassword = async function(
 ){
     return bcrypt.compare(candidatePassword, userPassword)
 };
+
+
+UserSchema.methods.createPasswordResetToken = function(){
+
+    const resetToken = crypto
+        .randomBytes(32)
+        .toString('hex')
+
+    this.passwordResetToken = crypto
+        .createHash('sha256')
+        .update(resetToken)
+        .digest('hex');
+        console.log({resetToken}, this.passwordResetToken)
+    this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+
+    return resetToken;
+}
 
 UserSchema.pre(/^find/, function (next){
     this.populate({

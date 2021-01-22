@@ -1,7 +1,7 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              import express from 'express'
 import {
-    checkStatus, followUser, getAllUsers,
-    getCurrentUser, getSubscriptions, getUser, logout,
+    checkStatus, followUser, forgotPassword, getAllUsers,
+    getCurrentUser, getSubscriptions, getUser, logout, resetPassword,
     RouteProtect,
     signin,
     signup,
@@ -18,6 +18,8 @@ const router = express.Router();
 
 router.post('/signup', signup);
 router.post('/signin', signin);
+router.post('/forgotPassword', forgotPassword);
+router.patch('/resetPassword/:token', resetPassword);
 router.get('/status', RouteProtect(true),  checkStatus);
 router.get('/current', RouteProtect(true),  getCurrentUser);
 router.patch('/updateCurrentUser', RouteProtect(true), updateCurrentUser);
