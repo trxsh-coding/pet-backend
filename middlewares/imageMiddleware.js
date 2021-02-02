@@ -5,6 +5,7 @@ import cloudinaryStorage from 'multer-storage-cloudinary';
 import Image from '../models/image'
 import {catchAsync} from "../controllers/error";
 import Content from "../models/content";
+import ApiError from "../utils/appError";
 
 const cloudinary = cd.v2
 cloudinary.config({
@@ -41,6 +42,7 @@ export const uploadMiddleware = catchAsync( async (req, res, next) => {
     next()
 })
 export const uploadMultipleMiddleware = catchAsync( async (req, res, next) => {
+    if(!req.files.images) next(new ApiError('errors', 505, {images:'Необходимо загрузить фотографии'}))
     const arrayMap =  req.files.images.map( el => {
         return {
             contentURL:el.path,
@@ -48,10 +50,7 @@ export const uploadMultipleMiddleware = catchAsync( async (req, res, next) => {
             contentType: 'image'
         }
     })
-    console.log(arrayMap)
-    //
     const contents = await Content.create(arrayMap)
-    console.log(contents)
     req.body.contentIdMap = contents.map(el => el.id)
     next()
 })

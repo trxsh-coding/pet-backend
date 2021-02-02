@@ -6,7 +6,7 @@ const PetSchema = new mongoose.Schema(
         name: {
             type:String,
             required:[true, 'Впишите имя питомца'],
-            maxlength:[15, 'Имя не должно привышать 10 симоволов']
+            maxlength:[20, 'Имя не должно привышать 20  симоволов']
         },
         type: {
             type:String,

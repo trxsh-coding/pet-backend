@@ -7,19 +7,19 @@ const UserSchema = new mongoose.Schema(
     {
         username: {
             type:String,
-            required:[true, 'Please provide your username'],
-            maxlength:[10, 'Username can contain only 10 characters']
+            required:[true, 'Необходимо ввести имя пользователя'],
+            maxlength:[10, 'Имя должно быть не более 10 символов']
         },
 
         email: {
             type:String,
-            required:[true, 'Please provide your email'],
+            required:[true, 'Необходимо ввести почту'],
             unique:true,
-            validate:[validator.isEmail, 'please provide a valid Email']
+            validate:[validator.isEmail, 'Необходимо ввести корректную почту']
         },
         password: {
             type:String,
-            required: [true, 'Please provide password'],
+            required: [true, 'Необходимо ввести пароль'],
             minLength:6
         },
         role: {
@@ -46,22 +46,24 @@ const UserSchema = new mongoose.Schema(
         about: String,
         passwordConfirm: {
             type:String,
-            required:[true, 'Please confirm your password'],
+            required:[true, 'Необходимо ввести пароль'],
             //WORKS ONLY ON SAVE && CREATE
             validate: {
                 validator: function (el) {
                     return el === this.password; // 12345 === 12345
                 },
-                message:'Password are not the same'
+                message:'Пароли не совпадают'
             }
         },
         avatar: {
             type:mongoose.Schema.ObjectId,
-            ref:'Content'
+            ref:'Content',
+            default:'601980d8b74ccf2837caf2a0'
         },
         background: {
             type:mongoose.Schema.ObjectId,
-            ref:'Content'
+            ref:'Content',
+            default:'60198150e2ebfb2b04a8e3bf'
         },
         phone:String,
         city:String,

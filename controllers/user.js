@@ -70,10 +70,13 @@ const createSendToken = (user, statusCode, req, res) => {
     })
 };
 
-export const signup = createDocument(User);
+export const signup = catchAsync(async (req, res, next) => {
+    const user = await User.create(req.body)
+    createSendToken(user, 200, req, res)
+});
 
 
-export const signin = catchAsync(async (req, res, next) => {
+    export const signin = catchAsync(async (req, res, next) => {
     const {password, email} = req.body;
     if (!email || !password) {
         return next(new ApiError(`please provide email and password`, 400))

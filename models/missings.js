@@ -4,23 +4,36 @@ const MissingSchema = new mongoose.Schema(
     {
         title: {
             type:String,
-            required:[true, 'Please title'],
-            maxlength:[50, 'Title can contain only 10 characters']
+            required:[true, 'Необходимо ввести заголовок'],
+            maxlength:[100, 'Заголовок не может привышать 100 символов']
         },
         images:[{
             type:mongoose.Schema.ObjectId,
-            ref:'Content'
+            ref:'Content',
+            required:true,
         }],
-        reward:String,
-        coordinates:[String],
-        address:String,
+        reward: {
+            type:String,
+            required:[true, 'Необходимо ввести вознаграждение'],
+        },
+        coordinates:{
+            type:[String],
+            validate: {
+                validator : (v) => Array.isArray(v) && v.length > 0,
+                message:'Необходимо ввести локацию'
+            }
+        },
+        address:{
+            type:String,
+            required:[true, 'Необходимо ввести заголовок'],
+        },
         date:{
             type:Date,
             default:Date.now()
         },
         description: {
             type:String,
-            required:[true, 'Please provide description'],
+            required:[true, 'Необходимо ввести описание'],
             maxlength:[255, 'Username can contain only 10 characters']
         },
 

@@ -6,7 +6,6 @@ export default class ApiError extends Error {
         this.isOperational = true;
         this.data = data;
         Error.captureStackTrace(this, this.constructor);
-
     }
 
 }
