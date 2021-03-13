@@ -64,7 +64,7 @@
       <workItem from="1615551550266" duration="6854000" />
       <workItem from="1615581674292" duration="672000" />
       <workItem from="1615584368544" duration="603000" />
-      <workItem from="1615618799388" duration="2563000" />
+      <workItem from="1615618799388" duration="3247000" />
     </task>
     <task id="LOCAL-00001" summary="-changed origin for cors">
       <created>1615628372111</created>
@@ -80,7 +80,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615629730265</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="-changed origin for cors">
+      <created>1615630188734</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1615630188734</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

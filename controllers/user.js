@@ -60,7 +60,7 @@ const createSendToken = (user, statusCode, req, res) => {
         expires:  new Date(Date.now() + process.env.ACCESS_TOKEN_EXPIRES * 24 * 60 * 1000),
         // httpOnly:true,
         sameSite: 'none',
-        secure:true
+        // secure:true
     };
     res.cookie('jwt', token, cookieOptions);
 
