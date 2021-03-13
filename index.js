@@ -12,13 +12,15 @@ import missingRoute from './routes/missing'
 import {errorController} from './controllers/error'
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import session from 'express-session'
 import 'dotenv/config';
 const app = express();
 app.use(cors({
     credentials: true,
-    origin: ["http://localhost:3000", "https://www.pethouse.cat", "https://pethouse.cat"]
+    origin: ["http://localhost:3000/", "https://www.pethouse.cat/", "https://pethouse.cat/"]
 }));
+
+
+
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(`${__dirname}/public`));
