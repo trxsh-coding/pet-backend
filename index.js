@@ -31,13 +31,7 @@ app.use('/api/v1/like', likeRoute);
 app.use('/api/v1/missing', missingRoute);
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-    );
-    next();
+    res.setHeader('Access-Control-Allow-Origin', '*');
 });
 
 app.get('/',(req,res) => {
