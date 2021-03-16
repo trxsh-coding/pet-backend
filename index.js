@@ -14,10 +14,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import 'dotenv/config';
 const app = express();
-app.use(cors({
-    credentials: true,
-    origin: '*'
-}));
+app.use(cors());
 
 
 
