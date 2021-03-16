@@ -14,6 +14,9 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import 'dotenv/config';
 const app = express();
+app.use(cors({
+    origin: ["http://localhost:3000", "https://www.pethouse.cat", "https://pethouse.cat"]
+}));
 
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -26,12 +29,7 @@ app.use('/api/v1/message', messageRoute);
 app.use('/api/v1/notification', notificationRoute);
 app.use('/api/v1/like', likeRoute);
 app.use('/api/v1/missing', missingRoute);
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000/, https://pethouse.cat/");
-    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+
 app.get('/',(req,res) => {
     res.send("Hello Babel")
 });
