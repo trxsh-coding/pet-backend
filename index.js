@@ -30,8 +30,9 @@ app.use('/api/v1/notification', notificationRoute);
 app.use('/api/v1/like', likeRoute);
 app.use('/api/v1/missing', missingRoute);
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
+    next();
 });
 
 app.get('/',(req,res) => {
