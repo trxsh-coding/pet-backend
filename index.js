@@ -14,7 +14,10 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import 'dotenv/config';
 const app = express();
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    origin: ["http://localhost:3000/", "https://www.pethouse.cat/", "https://pethouse.cat/"]
+}));
 
 
 
@@ -29,11 +32,6 @@ app.use('/api/v1/message', messageRoute);
 app.use('/api/v1/notification', notificationRoute);
 app.use('/api/v1/like', likeRoute);
 app.use('/api/v1/missing', missingRoute);
-
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    next();
-});
 
 app.get('/',(req,res) => {
     res.send("Hello Babel")
