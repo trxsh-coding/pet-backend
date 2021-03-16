@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f7974695-1422-4f83-bab2-ec8cd74166b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +65,7 @@
       <workItem from="1615581674292" duration="672000" />
       <workItem from="1615584368544" duration="603000" />
       <workItem from="1615618799388" duration="3247000" />
+      <workItem from="1615904859873" duration="1382000" />
     </task>
     <task id="LOCAL-00001" summary="-changed origin for cors">
       <created>1615628372111</created>
