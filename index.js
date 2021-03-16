@@ -14,7 +14,12 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import 'dotenv/config';
 const app = express();
-app.use(cors({origin: ['http://localhost:3000/', 'https://pethouse.cat/']}));
+app.use(cors({
+    credentials: true,
+    origin: ["http://localhost:3000/", "https://www.pethouse.cat/", "https://pethouse.cat/"]
+}));
+
+
 
 app.use(bodyParser.json());
 app.use(cookieParser());
