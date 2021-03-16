@@ -30,7 +30,15 @@ app.use('/api/v1/message', messageRoute);
 app.use('/api/v1/notification', notificationRoute);
 app.use('/api/v1/like', likeRoute);
 app.use('/api/v1/missing', missingRoute);
-
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    next();
+});
 app.get('/',(req,res) => {
     res.send("Hello Babel")
 });
