@@ -18,8 +18,19 @@ import 'dotenv/config';
 const app = express();
 app.use(cors({
     credentials: true,
-    origin: ["http://localhost:3000/", "https://www.pethouse.cat/", "https://pethouse.cat/"]
+    origin: ["http://localhost:3000", "https://www.pethouse.cat", "https://pethouse.cat"]
 }));
+app.use((req, res, next) => {
+    res.header('Access-Control-Expose-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+})
+
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(`${__dirname}/public`));
