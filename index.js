@@ -40,13 +40,6 @@ app.use('/api/v1/bookmark', bookmarkRoute);
 app.get('/',(req,res) => {
     res.send("Hello Babel")
 });
-app.use((req, res, next) => {
-    res.header('Access-Control-Expose-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.header("Access-Control-Allow-Origin", "http://localhost:3002");
-    res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-})
 
 app.use(errorController);
 
