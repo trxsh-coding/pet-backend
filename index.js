@@ -32,10 +32,6 @@ app.use('/api/v1/notification', notificationRoute);
 app.use('/api/v1/like', likeRoute);
 app.use('/api/v1/missing', missingRoute);
 app.use('/api/v1/bookmark', bookmarkRoute);
-app.get('/',(req,res) => {
-    res.send("Hello Babel")
-});
-app.use(errorController);
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000, https://pethouse.cat');
@@ -44,6 +40,13 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
+
+app.get('/',(req,res) => {
+    res.send("Hello Babel")
+});
+app.use(errorController);
+
+
 
 
 export default app;
