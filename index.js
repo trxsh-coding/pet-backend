@@ -16,6 +16,9 @@ import cors from 'cors';
 import session from 'express-session'
 import 'dotenv/config';
 const app = express();
+app.set('trust proxy', '94.228.112.37');
+
+
 app.use(cors({
     credentials: true,
     origin: ["http://localhost:3000", "https://www.pethouse.cat", "https://pethouse.cat"],
@@ -28,7 +31,6 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-app.set('trust proxy', 1);
 
 app.use(bodyParser.json());
 app.use(cookieParser());
