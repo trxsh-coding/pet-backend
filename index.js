@@ -18,6 +18,7 @@ import 'dotenv/config';
 const app = express();
 app.use(cors({
     credentials: true,
+    allowedHeaders: [ 'Accept-Version', 'Authorization', 'Credentials', 'Content-Type' ]
 }));
 
 app.use(bodyParser.json());
