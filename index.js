@@ -21,8 +21,6 @@ app.set('trust proxy', '94.228.112.37');
 
 app.use(cors({
     credentials: true,
-    origin: ["http://localhost:3000", "www.pethouse.cat", "https://pethouse.cat"],
-    allowedHeaders: [ 'Accept-Version', 'Authorization', 'Credentials', 'Content-Type' ]
 }));
 
 // app.use(function(req, res, next) {
