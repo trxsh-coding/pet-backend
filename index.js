@@ -18,6 +18,7 @@ import 'dotenv/config';
 const app = express();
 app.use(cors({
     credentials: true,
+    origin: ["http://localhost:3000", "https://www.pethouse.cat", "https://pethouse.cat"],
     allowedHeaders: [ 'Accept-Version', 'Authorization', 'Credentials', 'Content-Type' ]
 }));
 
