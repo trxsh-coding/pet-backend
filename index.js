@@ -18,12 +18,12 @@ import 'dotenv/config';
 const app = express();
 app.set('trust proxy', '94.228.112.37');
 
-
-app.use(cors({
-    credentials: true,
-    origin: "https://pethouse.cat",
-    allowedHeaders: [ 'Accept-Version', 'Authorization', 'Credentials', 'Content-Type' ]
-}));
+//
+// app.use(cors({
+//     credentials: true,
+//     origin: "https://pethouse.cat",
+//     allowedHeaders: [ 'Accept-Version', 'Authorization', 'Credentials', 'Content-Type' ]
+// }));
 
 // app.use(function(req, res, next) {
 //     res.header("Access-Control-Allow-Origin", "https://pethouse.cat");
