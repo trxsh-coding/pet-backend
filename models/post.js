@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import bcrypt from "bcrypt";
 const PostSchema = new mongoose.Schema(
     {
         authorId: {
@@ -11,6 +10,7 @@ const PostSchema = new mongoose.Schema(
             type:mongoose.Schema.ObjectId,
             ref:'Content'
         },
+
         description: {
             type:String
         },
@@ -53,12 +53,10 @@ PostSchema.virtual('bookmark', {
     select: 'id',
     justOne:true
 });
-
 PostSchema.virtual('likeId', {
     ref: 'Like',
     localField: '_id',
     foreignField: 'postId',
-    select: '_id',
     justOne:true,
     default: null
 });
@@ -75,13 +73,6 @@ PostSchema.virtual('likes', {
 });
 
 
-
-PostSchema.virtual('isLiked', {
-    ref: 'Like',
-    localField: '_id',
-    foreignField: 'postId',
-    count:true
-});
 
 PostSchema.pre(/^find/, function (next) {
     this.populate({
@@ -101,9 +92,6 @@ PostSchema.pre(/^find/, function (next) {
     });
     this.populate({
         path:'bookmark',
-    });
-    this.populate({
-        path:'likeId',
     });
     this.populate({
         path: 'likes',

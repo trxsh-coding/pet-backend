@@ -9,7 +9,7 @@ router.post('/comment', RouteProtect(true), createComment);
 router.get('/getBookmarkedPosts', RouteProtect(true), getBookmarkedPosts)
 router
     .route('/')
-    .get(RouteProtect(true),getAllPosts)
+    .get(getAllPosts)
     .post(
         RouteProtect(true),
         uploadFile('file'),

@@ -169,6 +169,7 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
             message: 'token sent to email'
         });
     } catch (e) {
+        console.log(e)
         user.passwordResetToken = undefined;
         user.passwordResetExpires = undefined;
         await user.save({validateBeforeSave: false})
