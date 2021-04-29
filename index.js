@@ -16,10 +16,12 @@ import cors from 'cors';
 import session from 'express-session'
 import 'dotenv/config';
 const app = express();
-app.use(cors({
-    credentials: true,
-    origin: ["http://localhost:3000", "https://www.pethouse.cat", "https://pethouse.cat"]
-}));
+app.set('trust proxy', '94.228.112.37');
+
+// app.use(cors({
+//     credentials: true,
+//     origin: ["http://localhost:3000", "https://www.pethouse.cat", "https://pethouse.cat"]
+// }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(`${__dirname}/public`));
@@ -32,14 +34,14 @@ app.use('/api/v1/notification', notificationRoute);
 app.use('/api/v1/like', likeRoute);
 app.use('/api/v1/missing', missingRoute);
 app.use('/api/v1/bookmark', bookmarkRoute);
-
-app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000, https://pethouse.cat');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    next();
-});
+//
+// app.use(function (req, res, next) {
+//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000, https://pethouse.cat');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+//     res.setHeader('Access-Control-Allow-Credentials', true);
+//     next();
+// });
 
 app.get('/',(req,res) => {
     res.send("Pethouse welcome!")
