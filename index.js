@@ -33,10 +33,6 @@ app.use('/api/v1/like', likeRoute);
 app.use('/api/v1/missing', missingRoute);
 app.use('/api/v1/bookmark', bookmarkRoute);
 
-app.get('/',(req,res) => {
-    res.send("Pethouse welcome!")
-});
-
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000, https://pethouse.cat');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -44,6 +40,11 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
+
+app.get('/',(req,res) => {
+    res.send("Pethouse welcome!")
+});
+
 app.use(errorController);
 
 export default app;
