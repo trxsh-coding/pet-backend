@@ -91,9 +91,6 @@ PostSchema.pre(/^find/, function (next) {
         select:'publicId contentType contentURL'
     });
     this.populate({
-        path:'bookmark',
-    });
-    this.populate({
         path: 'likes',
     });
     this.sort('-date')

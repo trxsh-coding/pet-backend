@@ -4,49 +4,58 @@ import bcrypt from "bcrypt";
 const PetSchema = new mongoose.Schema(
     {
         name: {
-            type:String,
-            required:[true, 'Впишите имя питомца'],
-            maxlength:[20, 'Имя не должно привышать 20  симоволов']
+            type: String,
+            required: [true, 'Впишите имя питомца'],
+            maxlength: [20, 'Имя не должно привышать 20  симоволов']
         },
         type: {
-            type:String,
+            type: String,
         },
-        amountOfFollowers: {
-            type:Number,
-            default:0
-        },
+
         gender: {
-            type:String
+            type: String
         },
         ages: {
-            type:String
+            type: String
         },
         breed: {
-            type:String
+            type: String
         },
         ownerId: {
-            type:mongoose.Schema.ObjectId,
-            ref:'User',
+            type: mongoose.Schema.ObjectId,
+            ref: 'User',
         },
         avatar: {
-            type:mongoose.Schema.ObjectId,
-            ref:'Content'
+            type: mongoose.Schema.ObjectId,
+            ref: 'Content'
         },
 
         background: {
-            type:mongoose.Schema.ObjectId,
-            ref:'Content'
+            type: mongoose.Schema.ObjectId,
+            ref: 'Content'
         },
-        followee:{
-            type:Boolean,
-            default:false
-        }
     },
     {
-        toJSON: {virtuals:true},
+        toJSON: {virtuals: true},
         toObject: {virtuals: true}
     }
 );
+
+
+PetSchema.virtual('amountOfFollowers', {
+    ref: 'Subscriptions',
+    localField: '_id',
+    foreignField: 'followerId',
+    count: true
+});
+
+PetSchema.virtual('follower', {
+    ref: 'Subscriptions',
+    localField: '_id',
+    foreignField: 'followerId',
+    justOne:true,
+    default: null
+});
 
 PetSchema.pre(/^find/, function (next) {
     this.populate({
@@ -57,9 +66,11 @@ PetSchema.pre(/^find/, function (next) {
         path: 'avatar',
         select: 'contentURL'
     });
+    this.populate({
+        path: 'amountOfFollowers',
+    });
     next();
 });
-
 
 
 module.exports = mongoose.model('Pet', PetSchema);

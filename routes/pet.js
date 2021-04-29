@@ -5,7 +5,9 @@ import {
     getAllPets,
     getPet, getPetFeed,
     getUserPets,
-    protectPet, searchPetsByQuery, subscribePet, subscriptionCheck, unsubscribePet,
+    searchPetsByQuery,
+    subscribePet,
+    unsubscribePet,
     updatePet,
     updatePetAvatar, updatePetBackground
 } from "../controllers/pet";
@@ -52,6 +54,6 @@ router
 router
     .route('/:id')
     .delete(deletePet)
-    .get(RouteProtect(true), subscriptionCheck, getPet)
+    .get(RouteProtect(false), getPet)
     .patch(RouteProtect(true),   updatePet);
 module.exports = router;

@@ -14,27 +14,18 @@ export const protectPet = catchAsync(async (req, res, next) => {
     next();
 });
 
-export const subscriptionCheck = catchAsync(async (req, res, next) => {
-    if (!req.user) next();
-    else if (req.user) {
-        const subscription = await Subscription.find({creatorId: req.user._id})
-        if (subscription.length) {
-            const doc = await Pet.findById(req.params.id)
-                .exec((err, object) => {
-                    object.set('amountOfFollowers', subscription.length)
-                    return res.status(200).json({
-                        [object._id]: object
-                    });
-                });
-        } else {
-            next()
-        }
-    }
-});
 
 export const updatePet = updateOne(Pet);
 export const deletePet = deleteDocument(Pet);
-export const getPet = getOne(Pet);
+
+export const getPet = catchAsync(async (req, res, next) => {
+    let pet = await Pet.findById(req.params.id)
+        .populate({path: 'follower', match: {creatorId: req.user?.id}})
+    res.status(200).json({
+        [pet._id]: pet,
+    });
+
+});
 export const createPet = catchAsync(async (req, res, next) => {
     const avatar = req.body.contentId ? req.body.contentId : null
     const pet = await Pet.create({
@@ -79,7 +70,14 @@ export const getAllPets = catchAsync(async (req, res, next) => {
 
 export const subscribePet = catchAsync(async (req, res, next) => {
     const pet = await Pet.findById(req.params.id)
-    if (pet.ownerId == req.user.id) next(new ApiError('you cant sub yourself', 500))
+    if (pet.ownerId === req.user.id) next(new ApiError('you cant sub yourself', 500))
+
+    const subscription = await Subscription.findOne({
+        creatorId: req.user.id,
+        followerId: req.params.id
+    })
+    console.log(subscription)
+    if (subscription) next(new ApiError('you already subscribed', 500))
 
     const newSubscription = await Subscription.create({
         creatorId: req.user.id,

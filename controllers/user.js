@@ -241,15 +241,10 @@ export const unfollowUser = catchAsync(async (req, res, next) => {
 export const getSubscriptions = catchAsync(async (req, res, next) => {
 
     const subscriptions = await Subscription.find({creatorId: req.user._id})
-    const array = subscriptions.map(el => {
-            return el.followerId
-        }
-    )
-    const subs = await Pet.find({_id: {$in: array}})
+    const array = subscriptions.map(el => el.followerId);
+    const subs = await Pet.find({_id: {$in: array}});
     let sortedById = {};
-    subs.map(el => {
-        sortedById = {...sortedById, ...{[el._id]: el}}
-    })
+    subs.map(el => sortedById = {...sortedById, ...{[el._id]: el}})
     res.status(200).json({
         subscriptions: sortedById,
         items: array

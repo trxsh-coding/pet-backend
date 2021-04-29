@@ -5,6 +5,7 @@ import Bookmark from "../models/bookmark";
 import Comment from "../models/comment";
 import {createNotification} from "./notification";
 import 'dotenv/config';
+import {deleteDocument} from "./generic";
 
 
 export const createPost = catchAsync(async (req, res, next) => {
@@ -16,6 +17,9 @@ export const createPost = catchAsync(async (req, res, next) => {
     });
     res.status(200).json(post);
 });
+
+export const deletePost = deleteDocument(Post);
+
 
 export const createPostWithVideo = catchAsync(async (req, res, next) => {
     const video = req.file ? req.file._id : null;
@@ -58,9 +62,9 @@ export const createComment = catchAsync(async (req, res, next) => {
 
 export const getPost = catchAsync(async (req, res, next) => {
     const {user} = req;
-
     let post = await Post.findById(req.params.id)
         .populate({path: 'likeId', match: {creatorId: req.user?.id}})
+        .populate({path: 'bookmark', match: {creatorId: req.user?.id}})
     res.status(200).json({
         [post._id]: post,
     });
