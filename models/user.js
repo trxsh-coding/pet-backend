@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema(
         username: {
             type:String,
             required:[true, 'Необходимо ввести имя пользователя'],
-            maxlength:[10, 'Имя должно быть не более 10 символов']
+            maxlength:[20, 'Имя должно быть не более 20 символов']
         },
 
         email: {
