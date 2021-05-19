@@ -11,7 +11,6 @@ const PetSchema = new mongoose.Schema(
         type: {
             type: String,
         },
-
         gender: {
             type: String
         },
@@ -24,6 +23,10 @@ const PetSchema = new mongoose.Schema(
         ownerId: {
             type: mongoose.Schema.ObjectId,
             ref: 'User',
+        },
+        petStatus: {
+            type: String,
+            default:'Active'
         },
         avatar: {
             type: mongoose.Schema.ObjectId,
@@ -68,6 +71,10 @@ PetSchema.pre(/^find/, function (next) {
     });
     this.populate({
         path: 'amountOfFollowers',
+    });
+    this.populate({
+        path: 'PetStatus',
+        field:'statusName'
     });
     next();
 });

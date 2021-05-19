@@ -90,7 +90,7 @@ export const getBookmarkedPosts = catchAsync(async (req, res, next) => {
 
 
 export const getAllPosts = catchAsync(async (req, res, next) => {
-    let posts = await Post.find()
+    let posts = await Post.find({})
         .populate(
             {
                 path: 'likes',
@@ -99,6 +99,7 @@ export const getAllPosts = catchAsync(async (req, res, next) => {
                 }
             }
         )
+        .sort('date')
 
     let sortedById = {};
     posts.map(el => {

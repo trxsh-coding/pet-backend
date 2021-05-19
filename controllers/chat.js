@@ -2,16 +2,16 @@ import {catchAsync} from "./error";
 import ApiError from "../utils/appError";
 import Chat from "../models/chat";
 
-export const createChat  = catchAsync( async (req, res, next) => {
+export const createChat = catchAsync(async (req, res, next) => {
 
     let chat = Chat.create({
-        creatorId:req.user._id,
-        members:[
+        creatorId: req.user._id,
+        members: [
             {
-                user:req.user._id,
+                user: req.user._id,
             },
             {
-                user:req.body.receiverId
+                user: req.body.receiverId
             }
         ]
     })
@@ -19,7 +19,7 @@ export const createChat  = catchAsync( async (req, res, next) => {
     chat = await chat.populate([
         {
             path: 'members',
-            populate: { path: 'user', select:'id avatar username' },
+            populate: {path: 'user', select: 'id avatar username'},
         },
     ]);
 
@@ -27,51 +27,51 @@ export const createChat  = catchAsync( async (req, res, next) => {
 })
 
 
-export const findChatRoom = catchAsync( async (req, res, next) => {
-    let chat =  await Chat.find({ "members.user": {$all:[
-                req.user.id, req.params.id
-            ]}})
-    console.log(chat)
-    if(!chat.length) return res.status(200).json('chat not created yet')
-    // chat = await chat.populate([
-    //     {
-    //         path: 'members',
-    //         populate: { path: 'user', select:'id avatar username' },
-    //     }
-    // ]);
-    res.status(200).json(chat[0])
+export const findChatRoom = catchAsync(async (req, res, next) => {
+    try {
+        console.log( req.params.id)
+        console.log( req.user.id)
+
+        let chat = await Chat.findOne({
+            "members.user": {$all: [req.user.id, req.params.id]}
+        })
+        if (!chat) return res.status(200).json('chat not created yet')
+        res.status(200).json(chat)
+    }catch (e){
+        console.trace(e)
+    }
 })
 
 
-export const getUserChats  = catchAsync( async (req, res, next) => {
-    let chats =  Chat.find()
-        .where({'members.user':req.user._id})
+export const getUserChats = catchAsync(async (req, res, next) => {
+    let chats = Chat.find()
+        .where({'members.user': req.user._id})
     chats = await chats
         .populate('messages')
         .populate([
-        {
-            path: 'members',
-            populate: { path: 'user', select:'id avatar username lastSeen' },
-        }
-    ]);
+            {
+                path: 'members',
+                populate: {path: 'user', select: 'id avatar username lastSeen'},
+            }
+        ]);
     let sortedById = {};
-    chats.map( el => {
-        sortedById = {...sortedById, ...{[el._id] : el }}
+    chats.map(el => {
+        sortedById = {...sortedById, ...{[el._id]: el}}
     })
     res.status(200).json(sortedById)
 })
 
-export const getChatByID  = catchAsync( async (req, res, next) => {
-    let chat =  Chat.findById(req.params.id)
+export const getChatByID = catchAsync(async (req, res, next) => {
+    let chat = Chat.findById(req.params.id)
     chat = await chat
         .populate('messages')
         .populate([
             {
                 path: 'members',
-                populate: { path: 'user', populate:{path:'pets'} },
+                populate: {path: 'user', populate: {path: 'pets'}},
             }
         ]);
     res.status(200).json({
-        [chat._id] : chat
+        [chat._id]: chat
     })
 })

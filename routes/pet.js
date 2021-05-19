@@ -4,7 +4,7 @@ import {
     deletePet,
     getAllPets,
     getPet, getPetFeed,
-    getUserPets,
+    getUserPets, petStatusCreate,
     searchPetsByQuery,
     subscribePet,
     unsubscribePet,
@@ -18,6 +18,7 @@ const router = express.Router();
 
 
 router.get('/getUserPets/:id',  getUserPets);
+router.post('/petStatusCreate',  petStatusCreate);
 
 //MAIN ROUTES
 router.post('/follow/:id', RouteProtect(true), subscribePet);

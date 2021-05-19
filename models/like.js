@@ -10,6 +10,7 @@ const LikeSchema = new mongoose.Schema(
             type:mongoose.Schema.ObjectId,
             ref:'User'
         },
+
     },
     {
         toJSON: {virtuals:true},

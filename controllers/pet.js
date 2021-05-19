@@ -4,6 +4,7 @@ import {deleteDocument, getOne, updateDocumentPicture, updateOne} from "./generi
 import ApiError from "../utils/appError";
 import Subscription from "../models/subscriptions";
 import Post from "../models/post";
+import PetStatus from "../models/petStatus";
 
 import {getMapId, sortById} from "../utils/arrayMethods";
 import {createNotification} from "./notification";
@@ -35,7 +36,17 @@ export const createPet = catchAsync(async (req, res, next) => {
     });
     res.status(200).json({[pet._id]: pet});
 });
-export const updatePetAvatar = updateDocumentPicture(Pet, 'avatar');
+export const updatePetAvatar = catchAsync(async (req, res, next) => {
+    await Pet.findById(req.body.id, (err, pet) =>{
+        if (pet.ownerId._id !== req.user._id) next(new ApiError('u cant update wrongg pet', 500));
+        pet.ownerId = req.user.id
+        pet.avatar = req.body.contentId;
+        pet.save();
+    });
+
+    res.status(200).json(req.file.path);
+
+});
 export const updatePetBackground = updateDocumentPicture(Pet, 'background');
 export const getUserPets = catchAsync(async (req, res, next) => {
     const id = req.params.id;
@@ -44,6 +55,9 @@ export const getUserPets = catchAsync(async (req, res, next) => {
         status: 'success',
         data: pets
     })
+});export const petStatusCreate = catchAsync(async (req, res, next) => {
+    const status = await PetStatus.create({statusName:req.body.statusName});
+    res.status(200).json(status)
 });
 
 export const searchPetsByQuery = catchAsync(async (req, res, next) => {

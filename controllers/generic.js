@@ -62,10 +62,8 @@ export const getOne = (Model, Options) =>
 
 
 export const updateDocumentPicture = (Model, FieldName) => catchAsync( async (req, res, next) => {
-
-    const body = req.body.id || req.user._id
+    const body = req.body.id;
     const user = await Model.findByIdAndUpdate(body, {[FieldName]: req.body.contentId}, {
-        new: true,
         runValidators: true
     });
     const fileName = req.file.path;

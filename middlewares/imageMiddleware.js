@@ -31,14 +31,14 @@ export const uploadFiles= count => parser.fields([
     }
 ])
 export const uploadMiddleware = catchAsync( async (req, res, next) => {
-   if(req.file){
-       const newContent = await Content.create({
-           contentURL:req.file.path,
-           publicId:req.file.filename,
-           contentType: 'image'
-       })
-       req.body.contentId = newContent._id;
-   }
+    if(req.file){
+        const newContent = await Content.create({
+            contentURL:req.file.path,
+            publicId:req.file.filename,
+            contentType: 'image'
+        })
+        req.body.contentId = newContent._id;
+    }
     next()
 })
 export const uploadMultipleMiddleware = catchAsync( async (req, res, next) => {

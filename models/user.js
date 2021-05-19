@@ -58,12 +58,12 @@ const UserSchema = new mongoose.Schema(
         avatar: {
             type:mongoose.Schema.ObjectId,
             ref:'Content',
-            default:'601980d8b74ccf2837caf2a0'
+            default:'60a50ee510a2580deeeb20aa'
         },
         background: {
             type:mongoose.Schema.ObjectId,
             ref:'Content',
-            default:'60198150e2ebfb2b04a8e3bf'
+            default:'60a50eb910a2580deeeb20a9'
         },
         phone:String,
         city:String,
