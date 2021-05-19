@@ -30,7 +30,7 @@ const PetSchema = new mongoose.Schema(
         avatar: {
             type: mongoose.Schema.ObjectId,
             ref: 'Content',
-            default: '60a565433906501beea539a3'
+            default: '60a50ee510a2580deeeb20aa'
         },
 
         background: {

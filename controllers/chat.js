@@ -33,7 +33,7 @@ export const findChatRoom = catchAsync(async (req, res, next) => {
         console.log( req.user.id)
 
         let chat = await Chat.findOne({
-            "members.user": {$all: [req.user.id, req.params.id]}
+            "members.user": {$all: [req.params.id, req.user.id]}
         })
         if (!chat) return res.status(200).json('chat not created yet')
         res.status(200).json(chat)
