@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import bcrypt from "bcrypt";
 
 const PetSchema = new mongoose.Schema(
     {
@@ -30,12 +29,14 @@ const PetSchema = new mongoose.Schema(
         },
         avatar: {
             type: mongoose.Schema.ObjectId,
-            ref: 'Content'
+            ref: 'Content',
+            default: '60a565433906501beea539a3'
         },
 
         background: {
             type: mongoose.Schema.ObjectId,
-            ref: 'Content'
+            ref: 'Content',
+            default: '60a50eb910a2580deeeb20a9'
         },
     },
     {
