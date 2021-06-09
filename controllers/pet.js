@@ -38,7 +38,6 @@ export const createPet = catchAsync(async (req, res, next) => {
 });
 export const updatePetAvatar = catchAsync(async (req, res, next) => {
     await Pet.findById(req.body.id, (err, pet) =>{
-        if (pet.ownerId._id !== req.user._id) next(new ApiError('u cant update wrongg pet', 500));
         pet.ownerId = req.user.id
         pet.avatar = req.body.contentId;
         pet.save();
@@ -63,7 +62,6 @@ export const getUserPets = catchAsync(async (req, res, next) => {
 export const searchPetsByQuery = catchAsync(async (req, res, next) => {
     const keyName = Object.keys(req.query)[0];
     const pets = await Pet.find({[keyName]: {$regex: `${req.query[keyName]}`, $options: 'i'}})
-    console.log(pets)
     res.status(200).json(
         {
             pets: sortById(pets),

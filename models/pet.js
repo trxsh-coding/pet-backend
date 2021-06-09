@@ -25,7 +25,7 @@ const PetSchema = new mongoose.Schema(
         },
         petStatus: {
             type: String,
-            default:'Active'
+            default:null
         },
         avatar: {
             type: mongoose.Schema.ObjectId,

@@ -29,9 +29,6 @@ export const createChat = catchAsync(async (req, res, next) => {
 
 export const findChatRoom = catchAsync(async (req, res, next) => {
     try {
-        console.log( req.params.id)
-        console.log( req.user.id)
-
         let chat = await Chat.findOne({
             "members.user": {$all: [req.params.id, req.user.id]}
         })

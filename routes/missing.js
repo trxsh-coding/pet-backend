@@ -1,6 +1,6 @@
 import express from 'express'
 import {RouteProtect} from "../controllers/user";
-import {createMissing, getMissing, getMissings} from "../controllers/missings";
+import {createMissing, deleteMissing, getMissing, getMissings} from "../controllers/missings";
 import {uploadImages} from "../utils/upload";
 import {uploadFile, uploadFiles, uploadMiddleware, uploadMultipleMiddleware} from "../middlewares/imageMiddleware";
 const router = express.Router();
@@ -18,5 +18,6 @@ router
 router
     .route('/:id')
     .get(getMissing)
+    .delete(deleteMissing)
 module.exports = router;
 

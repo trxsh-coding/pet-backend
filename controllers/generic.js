@@ -6,7 +6,7 @@ import User from "../models/user";
 export const deleteDocument = Model =>
     catchAsync(async (req, res, next) => {
 
-        const doc = await Model.findOneAndDelete(req.params.id);
+        const doc = await Model.findOneAndRemove(req.params.id);
 
         if(!doc) return next(new ApiError(`No document found with ${req.params.id}`, 404));
 

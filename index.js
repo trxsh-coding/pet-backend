@@ -18,10 +18,10 @@ import 'dotenv/config';
 const app = express();
 app.set('trust proxy', '94.228.112.37');
 
-// app.use(cors({
-//     credentials: true,
-//     origin: ["http://localhost:3000", "https://www.pethouse.cat", "https://pethouse.cat"]
-// }));
+app.use(cors({
+    credentials: true,
+    origin: ["http://localhost:3000", "https://www.pethouse.cat", "https://pethouse.cat"]
+}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(`${__dirname}/public`));
